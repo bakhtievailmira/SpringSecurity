@@ -14,8 +14,8 @@ public class HelloController {
 	public String printWelcome(ModelMap model) {
 		List<String> messages = new ArrayList<>();
 		messages.add("Hello!");
-		messages.add("This is CRUD Spring MVC application written by Ilmira");
-		messages.add("1.0 version by january'19 ");
+		messages.add("This is  Spring Security MVC application written by Ilmira");
+		messages.add("1.0 version by february'24 ");
 		model.addAttribute("messages", messages);
 		return "index";
 	}

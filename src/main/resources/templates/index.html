@@ -10,7 +10,14 @@
     <th:block th:each="msg : ${messages}">
         <h1 th:text="${msg}"></h1>
     </th:block>
-    <form method="get" th:action="@{http://localhost:8080/users}" ><button type="submit">Показать список пользователей</button></form>
+    <br/>
+    <form method="get" th:action="@{http://localhost:8080/admin/users}">
+        <button type="submit">Показать список пользователей</button>
+    </form>
+    <br/>
+    <form method="get" th:action="@{http://localhost:8080/user}">
+        <button type="submit">Показать страницу пользователя</button>
+    </form>
 </div>
 </body>
 </html>

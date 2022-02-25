@@ -5,7 +5,8 @@
     <title>Update User</title>
 </head>
 <body>
-<form th:method= "put" th:action="@{http://localhost:8080/users/{id}/edit(id=${user.getId()})}"  th:object="${user}">
+<form th:method="put" th:action="@{http://localhost:8080/admin/{id}/edit(id=${user.getId()})}" th:object="${user}">
+
     <label for="name"> Имя пользователя: </label>
     <input type="text" th:field="*{name}" id="name"/>
     <br/>
@@ -15,7 +16,17 @@
     <label for="age"> Возраст пользователя: </label>
     <input type="text" th:field="*{age}" id="age"/>
     <br/>
-    <input type="submit"    value="Редактировать"/>
-
+    <label for="username"> Логин пользователя: </label>
+    <input type="text" th:field="*{username}" id="username"/>
+    <br/>
+    <label for="username"> Пароль пользователя: </label>
+    <input type="text" th:field="*{password}" id="password"/>
+    <br/>
+    <input type="submit" value="Редактировать"/>
+    <br/>
+    <br/>
+    <form th:action="@{/logout}" method="POST">
+        <input type="submit" value="Logout"/>
+    </form>
 </body>
 </html>

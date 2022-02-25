@@ -1,14 +1,18 @@
 package com.example.springsecurity.model;
 
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
 
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Set;
 
+@Component
 @Entity
 @Table(name = "users")
-public class User  {
+public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
@@ -22,14 +26,43 @@ public class User  {
     @Column(name = "age")
     private int age;
 
+    @Column(name = "username")
+    private String userName;
 
-    public User(){
-    };
+    @Column(name = "password")
+    private String password;
 
-    public User(String name, String surname, int age) {
+    @ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)
+    @CollectionTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"))
+    @Enumerated(EnumType.STRING)
+    private Set<Role> roles;
+
+
+    public User() {
+        this.password = "user";
+        this.roles = Collections.singleton(Role.ROLE_USER);
+    }
+
+    ;
+
+    public User(String name, String surname, int age, String userName) {
         this.name = name;
         this.surname = surname;
         this.age = age;
+        this.userName = userName;
+        this.password = "user";
+        this.roles = Collections.singleton(Role.ROLE_USER);
+
+    }
+
+    public User(String name, String surname, int age, String userName, String password) {
+        this.name = name;
+        this.surname = surname;
+        this.age = age;
+        this.userName = userName;
+        this.password = password;
+        this.roles = Collections.singleton(Role.ROLE_USER);
+
     }
 
     public String getName() {
@@ -56,12 +89,62 @@ public class User  {
         this.age = age;
     }
 
-    public  long getId() {
+    public long getId() {
         return id;
     }
 
-    public  void setId(int id) {
+    public void setId(int id) {
         this.id = id;
+    }
+
+    public void setUsername(String userName) {
+        this.userName = userName;
+    }
+
+
+    public Collection<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Collection<Role> roles) {
+        this.roles = Collections.singleton(Role.ROLE_USER);
+        ;
+    }
+
+
+    @Override
+    public Collection<Role> getAuthorities() {
+        return roles;
+    }
+
+    @Override
+    public String getPassword() {
+        return password;
+    }
+
+    @Override
+    public String getUsername() {
+        return userName;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
     }
 
 
