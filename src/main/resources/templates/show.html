@@ -1,29 +1,27 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>User info</title>
-</head>
-<body>
-
-
 <table class="table table-sub-heading-color" border="1" style="width:300px">
     <thead>
     <tr>
-        <th scope="col">Имя</th>
-        <th scope="col">Фамилия</th>
-        <th scope="col">Возраст </th>
+        <th scope="col">name</th>
+        <th scope="col">surname</th>
+        <th scope="col">age</th>
+        <th scope="col">userName</th>
+        <th scope="col">password</th>
     </tr>
     </thead>
     <tbody>
     <tr>
-
         <td th:text="${user.getName()}"/>
         <td th:text="${user.getSurname()}"/>
         <td th:text="${user.getAge()}"/>
+        <td th:text="${user.getUsername()}"/>
+        <td th:text="${user.getPassword()}"/>
 
     </tr>
     </tbody>
 </table>
-</body>
+<br/>
+<form th:action="@{/logout}" method="POST">
+    <input type="submit" value="Logout"/>
+</form>
+
 </html>
