@@ -1,17 +1,12 @@
 package com.example.springsecurity.controller;
 
 
+import com.example.springsecurity.model.Role;
 import com.example.springsecurity.model.User;
 import com.example.springsecurity.service.UserService;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 
 @Controller
@@ -28,12 +23,18 @@ public class AdminController {
 
 
     @GetMapping("/new")
-    public String newUser(@ModelAttribute("user") User user) {
+    public String newUser(@ModelAttribute("user") User user, Model model) {
+        model.addAttribute("listroles", Role.values());
         return "new";
     }
 
     @PostMapping()
-    public String creatUser(@ModelAttribute("user") User user) {
+    public String creatUser(@ModelAttribute("user") User user, Model model) {
+        User userFromDB = (User) userService.loadUserByUsername(user.getUsername());
+        if (userFromDB != null) {
+            model.addAttribute("message", "User with such email already exists");
+            return "new";
+        }
         userService.save(user);
         return "redirect:/admin";
     }
@@ -47,6 +48,7 @@ public class AdminController {
     @GetMapping("/{id}/edit")
     public String showUpdateForm(@PathVariable("id") long id, Model model) {
         model.addAttribute("user", userService.findById(id));
+        model.addAttribute("listroles", Role.values());
         return "edit";
     }
 
@@ -63,14 +65,6 @@ public class AdminController {
         return "redirect:/admin";
     }
 
-    @GetMapping("/logout")
-    public String logoutPage(HttpServletRequest request, HttpServletResponse response) {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        if (auth != null) {
-            new SecurityContextLogoutHandler().logout(request, response, auth);
-        }
-        return "redirect:/index";
-    }
 
     @GetMapping("/{id}")
     public String showUser(@PathVariable("id") int id, Model model) {

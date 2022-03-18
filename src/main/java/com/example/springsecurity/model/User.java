@@ -4,9 +4,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
-
 import java.util.Collection;
-import java.util.Collections;
 import java.util.Set;
 
 @Component
@@ -16,22 +14,11 @@ public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-
-    @Column(name = "name")
     private String name;
-
-    @Column(name = "surname")
     private String surname;
-
-    @Column(name = "age")
     private int age;
-
-    @Column(name = "username")
-    private String userName;
-
-    @Column(name = "password")
+    private String email;
     private String password;
-    @Column(name = "active")
     private boolean active;
 
 
@@ -42,37 +29,27 @@ public class User implements UserDetails {
 
 
     public User() {
-        this.password = "user";
-        this.roles = Collections.singleton(Role.ROLE_USER);
-        this.active=true;
+        this.active = true;
     }
 
-    ;
 
-    public User(String name, String surname, int age, String userName) {
+    public User(String name, String surname, int age, String userName, String password, Set<Role> roles) {
         this.name = name;
         this.surname = surname;
         this.age = age;
-        this.userName = userName;
-        this.password = "user";
-        this.roles = Collections.singleton(Role.ROLE_USER);
-        this.active=true;
-
-    }
-
-    public User(String name, String surname, int age, String userName, String password) {
-        this.name = name;
-        this.surname = surname;
-        this.age = age;
-        this.userName = userName;
+        this.email = userName;
         this.password = password;
-        this.roles = Collections.singleton(Role.ROLE_USER);
-        this.active=true;
-
+        this.roles = roles;
+        this.active = true;
     }
+
 
     public String getName() {
         return name;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public void setName(String name) {
@@ -103,19 +80,28 @@ public class User implements UserDetails {
         this.id = id;
     }
 
-    public void setUsername(String userName) {
-        this.userName = userName;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
+
+    public void setId(long id) {
+        this.id = id;
+    }
 
     public Collection<Role> getRoles() {
         return roles;
     }
 
-    public void setRoles(Collection<Role> roles) {
-        this.roles = Collections.singleton(Role.ROLE_USER);
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
 
     }
+
+    public String getEmail() {
+        return email;
+    }
+
     public boolean isActive() {
         return active;
     }
@@ -136,7 +122,7 @@ public class User implements UserDetails {
 
     @Override
     public String getUsername() {
-        return userName;
+        return email;
     }
 
     @Override
@@ -148,6 +134,7 @@ public class User implements UserDetails {
     public boolean isAccountNonLocked() {
         return true;
     }
+
 
     @Override
     public boolean isCredentialsNonExpired() {

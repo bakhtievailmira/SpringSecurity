@@ -2,14 +2,13 @@ package com.example.springsecurity.service;
 
 
 import com.example.springsecurity.dao.UserRepository;
-import com.example.springsecurity.model.Role;
 import com.example.springsecurity.model.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Collection;
+
 import java.util.List;
 
 @Service
@@ -50,7 +49,7 @@ public class UserServiceImp implements UserService {
 
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return userRepository.findByUserName(username);
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        return userRepository.findByEmail(email);
     }
 }

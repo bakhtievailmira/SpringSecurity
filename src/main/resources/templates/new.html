@@ -5,6 +5,11 @@
     <title>New User</title>
 </head>
 <body>
+<div th:if="${message}"
+     align="center">
+    <h3>Invalid username!</h3>
+</div>
+
 <form th:method="POST" th:action="@{http://localhost:8080/admin}" th:object="${user}">
     <label for="name">Введите имя пользователя: </label>
     <input type="text" th:field="*{name}" id="name" placeholder="Имя"/>
@@ -18,14 +23,23 @@
     <input type="text" th:field="*{age}" id="age" placeholder="Age"/>
     <span th:if="${#fields.hasErrors('age')}" th:errors="*{age}"></span>
     <br/>
-    <label for="username">Введите userName пользователя: </label>
-    <input type="text" th:field="*{username}" id="username" placeholder="UserName"/>
-    <span th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></span>
+    <label for="username">Введите email пользователя: </label>
+    <input type="text" th:field="*{email}" id="username" placeholder="Email"/>
+    <span th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></span>
     <br/>
     <label for="password">Введите пароль пользователя: </label>
     <input type="text" th:field="*{password}" id="password" placeholder="Password"/>
-    <span th:if="${#fields.hasErrors('username')}" th:errors="*{password}"></span>
+    <span th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></span>
     <br/>
+    <tr>
+        <th>Role</th>
+    </tr>
+    <tr>
+        <td><select multiple id="roles" name="roles">
+            <option th:each="role : ${listroles}" th:value="${role}" th:text="${role.name()}"
+                    th:field="*{roles}"></option>
+        </select></td>
+    </tr>
     <br/>
     <input type="submit" value="Создать"/>
     <br/>

@@ -5,6 +5,12 @@
     <title>Update User</title>
 </head>
 <body>
+
+<div th:if="${message}"
+     align="center">
+    <h3>Invalid username!</h3>
+</div>
+
 <form th:method="put" th:action="@{http://localhost:8080/admin/{id}/edit(id=${user.getId()})}" th:object="${user}">
 
     <label for="name"> Имя пользователя: </label>
@@ -16,11 +22,21 @@
     <label for="age"> Возраст пользователя: </label>
     <input type="text" th:field="*{age}" id="age"/>
     <br/>
-    <label for="username"> Логин пользователя: </label>
-    <input type="text" th:field="*{username}" id="username"/>
+    <label for="username"> Email пользователя: </label>
+    <input type="text" th:field="*{email}" id="username"/>
     <br/>
     <label for="username"> Пароль пользователя: </label>
     <input type="text" th:field="*{password}" id="password"/>
+    <br/>
+    <tr>
+        <th>Role</th>
+    </tr>
+    <tr>
+        <td><select multiple id="roles" name="roles">
+            <option th:each="role : ${listroles}" th:value="${role}" th:text="${role.name()}"
+                    th:field="*{roles}"></option>
+        </select></td>
+    </tr>
     <br/>
     <input type="submit" value="Редактировать"/>
     <br/>
