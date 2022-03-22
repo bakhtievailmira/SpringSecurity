@@ -7,7 +7,7 @@
 <body>
 <div th:if="${message}"
      align="center">
-    <h3>Invalid username!</h3>
+    <h3>User with such email already exists</h3>
 </div>
 
 <form th:method="POST" th:action="@{http://localhost:8080/admin}" th:object="${user}">
